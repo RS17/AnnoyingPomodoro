@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.github.rs17.annoyingpomodoro">
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/annoying"
+        android:label="@string/app_name"
+        android:roundIcon="@drawable/annoying"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        android:launchMode="singleTask">
+        <activity
+            android:name=".LogViewActivity"
+            android:label="@string/title_activity_log_view"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".SettingsActivity"
+            android:label="Settings"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity
+            android:name=".AndroidMainActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>

@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Annoying Pomodoro</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_log_view">LogViewActivity</string>
+</resources>

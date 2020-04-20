@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <CheckBoxPreference
+        app:key="has_ticking_sound_0"
+        app:title="Ticking sound?"
+        app:summary="Make ticking sound while pomodoro is running"
+        android:defaultValue="true"/>
+    <EditTextPreference
+        android:dialogTitle="Pomodoro duration"
+        android:key="pomodoro_duration_0"
+        android:summary="Duration of pomodoro (mm:ss)"
+        android:title="Pomodoro duration"
+        android:defaultValue="25:00"/>
+    <EditTextPreference
+        android:dialogTitle="Short break duration"
+        android:key="short_break_duration_0"
+        android:summary="Duration of short break (mm:ss)"
+        android:title="Short break duration"
+        android:inputType="time"
+        android:defaultValue="5:00"/>
+    <EditTextPreference
+        android:dialogTitle="Long break duration"
+        android:key="long_break_duration_0"
+        android:summary="Duration of long break (mm:ss)"
+        android:title="Long break duration"
+        android:inputType="time"
+        android:defaultValue="25:00"/>
+    <EditTextPreference
+        android:dialogTitle="Short breaks until long"
+        android:key="short_breaks_until_long_0"
+        android:summary="Number of short breaks until a long break"
+        android:title="Short breaks until long"
+        android:inputType="number"
+        android:defaultValue="4"/>
+</androidx.preference.PreferenceScreen>
