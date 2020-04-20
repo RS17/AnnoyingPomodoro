@@ -1,0 +1,71 @@
+Goals of this project:
+- Create a functioning pomodoro timer that's useful to me personally
+- And potentially useful to others
+- that works both in Android and JRE (only Android as of Version 1.0)
+- Make this as purely functional as possible (even if a bit impractical) as an exercise in improving FP skills
+
+Functional goals:
+- Slacking off should only be possible at the cost of being annoyed.
+- Low battery use
+- Operates smoothly and reliably
+
+Origins:  
+
+I created the original "Annoying Pomodoro" (which is "Ugly Pomodoro" in this 
+repository, but still exists under the "Annoying Pomodoro" name on SourceForge)
+using Perl, when I was a lawyer and not yet a professional programmer.
+
+After several years I moved to a linux PC and was going to re-build the 
+original Windows application.  However, I found that the original had a 
+functional bug that caused the timing to be inaccurate, and also a key 
+library was no longer available. In addition to substandard code.
+
+Rather than try to fix these major issues, I decided to rebuild the app
+in Kotlin in such a way that it could be deployed both on my phone and 
+on the desktop.  Additionally perhaps part of the goal is to over-engineer 
+it a little as a way to learn functional programming and try out some 
+ideas I have about maximizing flexibility.  
+
+This uses some of the same resources as the original, but is otherwise a 
+complete rewrite.
+
+Functional programming:
+
+Overall my goal is to use functional programming wherever practical. I 
+see FP as a good thing, but not a cure-all. For example, while higher-
+order functions are ideal, they have some undesirable effects like not 
+easily being able to trace the program's flow from the code alone, and
+making the call stack more confusing.  And while avoiding mutation is a
+good idea, mutation is not so profane that you should add object 
+structure (or even libraries!) to avoid it.  So I've allowed some mutation,
+but minimally.  
+
+Multiple UIs:
+
+One goal (not yet realized as of 1.0) is to develop for multiple UIs in 
+the same codebase.  For now, this just means that any Android stuff is
+kept in its own separate class.  Any future interface should extend MainUI
+and implement any methods therein.
+
+In practice, I've found that more depends on the UI than I hoped, 
+including the settings and sound.  So adding a java desktop interface 
+may not prove to be that easy.  
+
+Speaking of which, I've not done cross-platform java desktop app before,
+so simply learning how to do that will prove to be its own adventure.  If 
+anyone reading this has pointers let me know.
+
+Technical Structure:
+
+As mentioned the main structural focus is separating out the UI.  Additionally:
+- Universal state - This handles all state that isn't UI-focused.  Not 
+	very functional but it works for keeping things simple.
+- TimerRun - this refers to a time period in which the Pomodoro timer is running.
+	A break is a timer run, a work period is a timer run.  Subclassed as needed.
+	
+And that's about it. If anyone wants to add to this please feel free to 
+make a PR and I may or may not accept it.  And contact me if any help is
+needed.  
+
+Ravi Suri
+rsuriprog@gmail.com

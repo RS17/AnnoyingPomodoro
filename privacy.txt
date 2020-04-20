@@ -1,0 +1,22 @@
+Privacy Policy:
+
+This app collects no personally identifiable information or other data.
+
+It does store logs on the phone which are visible by selecting the view log option.  These logs are for the phone user only and are never transmitted anywhere else by the app.
+
+However, as a completely free app Annoying Pomodoro is provided as-is and it is solely the user's responsibility to ensure that no data is being stored or leaked due to negligence of either the user or the developer.
+
+The full source code is available at https://github.com/RS17/AnnoyingPomodoro.
+
+Note that the software is MIT licensed, including the following which is also incorporated into this privacy policy, and nothing in this privacy policy or elsewhere should be taken to limit this paragraph's application:
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+Ravi Suri
+rsuriprog@gmail.com
