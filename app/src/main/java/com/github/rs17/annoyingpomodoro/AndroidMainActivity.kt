@@ -36,8 +36,6 @@ class AndroidMainActivity : AppCompatActivity(), MainUI {
     val NOTIFICATION_DONE_NOTIF_ID = 1
 
     val appState by lazy{UniversalState(this)}
-    var runPlayer : AndroidMediaPlayer? = null
-    var stopPlayer : AndroidMediaPlayer? = null
     var runningPlayer : AndroidMediaPlayer? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -239,24 +237,14 @@ class AndroidMainActivity : AppCompatActivity(), MainUI {
         return filesDir
     }
 
-    override fun initRunPlayer(runPlayerResource: Int){
-        runPlayer = if(runPlayerResource == -1) null else AndroidMediaPlayer(applicationContext, runPlayerResource)
+    fun initRunningPlayer(playerResource: Int): AndroidMediaPlayer?{
+        return if(playerResource == -1) null else AndroidMediaPlayer(applicationContext, playerResource)
     }
 
-    override fun initStopPlayer(stopPlayerResource: Int){
-        stopPlayer = if(stopPlayerResource == -1) null else AndroidMediaPlayer(applicationContext, stopPlayerResource)
-    }
-
-    override fun startRunPlayer() {
+    override fun startRunningPlayer(playerResource: Int) {
         if( runningPlayer != null) killRunningPlayer()
-        runningPlayer = runPlayer
-        runPlayer?.start()
-    }
-
-    override fun startStopPlayer() {
-        if( runningPlayer != null) killRunningPlayer()
-        runningPlayer = stopPlayer
-        stopPlayer?.start()
+        runningPlayer = initRunningPlayer(playerResource)
+        runningPlayer?.start()
     }
 
     override fun killRunningPlayer() {

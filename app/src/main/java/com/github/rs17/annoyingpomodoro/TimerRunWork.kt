@@ -27,7 +27,7 @@ class TimerRunWork(appState: UniversalState, activity: MainUI) : TimerRun(activi
 
     override fun update(updatedKey: String){
         // make player start/stop on settings update based on ticking sound checkbox (hasTick)
-        if(appState.hasTick && timerState == TimerState.running) mainUI.startRunPlayer() else mainUI.killRunningPlayer()
+        if(appState.hasTick && timerState == TimerState.running) mainUI.startRunningPlayer(runPlayerResource) else mainUI.killRunningPlayer()
         if(updatedKey == pomodoroDurationId){
             reset()
         }

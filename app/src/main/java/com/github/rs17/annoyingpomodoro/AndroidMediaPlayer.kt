@@ -23,7 +23,11 @@ class AndroidMediaPlayer(context: Context, resource: Int): MediaPlayer(){
     // overrides of media player functions to enable state checking.  All functions either stay in the state or make it happen.
     override fun start(){
         when(currentState) {
-            PlayerState.stopped -> {prepare(); start()}
+            PlayerState.stopped -> {
+                prepare();
+                baseMediaPlayer.isLooping = true
+                start()
+            }
             PlayerState.prepared -> {currentState=PlayerState.playing; baseMediaPlayer.start()}
             else -> {}
         }
@@ -31,7 +35,11 @@ class AndroidMediaPlayer(context: Context, resource: Int): MediaPlayer(){
 
     override fun stop(){
         when(currentState){
-            PlayerState.playing -> {currentState=PlayerState.stopped; baseMediaPlayer.stop()}
+            PlayerState.playing -> {
+                currentState=PlayerState.stopped
+                baseMediaPlayer.stop()
+                baseMediaPlayer.isLooping = false      //ZenPhone bug - keeps playing otherwise
+            }
             else -> {}
         }
     }

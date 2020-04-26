@@ -27,8 +27,6 @@ abstract class TimerRun(mainUI_i: MainUI, appState_i: UniversalState, runPlayerR
 
     // do whatever is needed to attach the timer to the UI here
     open fun prepare(){
-        mainUI.initRunPlayer(runPlayerResource)
-        mainUI.initStopPlayer(stopPlayerResource)
         if( appState.currentTimerRun != this) {
             appState.currentTimerRun = this;
         }
@@ -49,7 +47,7 @@ abstract class TimerRun(mainUI_i: MainUI, appState_i: UniversalState, runPlayerR
         }
 
         if(startPlayer) {
-            mainUI.startRunPlayer()
+            mainUI.startRunningPlayer(runPlayerResource)
         }
         currentTimer!!.start()
         timerState = TimerState.running
@@ -60,7 +58,7 @@ abstract class TimerRun(mainUI_i: MainUI, appState_i: UniversalState, runPlayerR
     open fun handleFinish(){
         timerState = TimerState.stopped
         mainUI.killRunningPlayer()
-        mainUI.startStopPlayer()
+        mainUI.startRunningPlayer(stopPlayerResource)
         appState.endedTimerRun = this
         appState.currentTimerRun = null
         nextRun.prepare()
