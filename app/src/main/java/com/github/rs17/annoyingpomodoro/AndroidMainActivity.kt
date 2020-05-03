@@ -1,10 +1,7 @@
 package com.github.rs17.annoyingpomodoro
 
-import android.app.AlertDialog
+import android.app.*
 import android.app.Notification.VISIBILITY_PUBLIC
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -41,9 +38,9 @@ class AndroidMainActivity : AppCompatActivity(), MainUI {
     override fun onCreate(savedInstanceState: Bundle?) {
         //if this appears to be running on resume, you're probably not actually resuming - more likely the program exited and timerrun didn't stop
         super.onCreate(savedInstanceState)
-        appState.onCreate()
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
+        appState.onCreate()
         createStopButton()
         setupPrefs("")
         TimerRunWork(appState, this).prepare()
