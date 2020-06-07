@@ -7,6 +7,11 @@
         app:title="Ticking sound?"
         app:summary="Make ticking sound while pomodoro is running"
         android:defaultValue="true"/>
+    <CheckBoxPreference
+        app:key="pause_on_call_0"
+        app:title="Pause on call?"
+        app:summary="Pause timer on phone answer/call"
+        android:defaultValue="true"/>
     <EditTextPreference
         android:dialogTitle="Pomodoro duration"
         android:key="pomodoro_duration_0"

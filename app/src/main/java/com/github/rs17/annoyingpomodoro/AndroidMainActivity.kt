@@ -1,7 +1,10 @@
 package com.github.rs17.annoyingpomodoro
 
-import android.app.*
+import android.app.AlertDialog
 import android.app.Notification.VISIBILITY_PUBLIC
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -9,6 +12,8 @@ import android.content.SharedPreferences.OnSharedPreferenceChangeListener
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.telephony.PhoneStateListener
+import android.telephony.TelephonyManager
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
@@ -17,6 +22,7 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.preference.PreferenceManager
 import com.github.rs17.annoyingpomodoro.SettingsActivity.SettingsFragment.Companion.hasTickingSoundId
 import com.github.rs17.annoyingpomodoro.SettingsActivity.SettingsFragment.Companion.longBreakDurationId
+import com.github.rs17.annoyingpomodoro.SettingsActivity.SettingsFragment.Companion.pauseOnCallId
 import com.github.rs17.annoyingpomodoro.SettingsActivity.SettingsFragment.Companion.pomodoroDurationId
 import com.github.rs17.annoyingpomodoro.SettingsActivity.SettingsFragment.Companion.shortBreakDurationId
 import com.github.rs17.annoyingpomodoro.SettingsActivity.SettingsFragment.Companion.shortBreaksUntilLongId
@@ -24,6 +30,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 import java.io.File
 import java.util.concurrent.TimeUnit
+
 
 class AndroidMainActivity : AppCompatActivity(), MainUI {
 
@@ -33,7 +40,10 @@ class AndroidMainActivity : AppCompatActivity(), MainUI {
     val NOTIFICATION_DONE_NOTIF_ID = 1
 
     val appState by lazy{UniversalState(this)}
+
     var runningPlayer : AndroidMediaPlayer? = null
+
+    val listener by lazy{ AndroidCallListener(appState)}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         //if this appears to be running on resume, you're probably not actually resuming - more likely the program exited and timerrun didn't stop
@@ -45,6 +55,9 @@ class AndroidMainActivity : AppCompatActivity(), MainUI {
         setupPrefs("")
         TimerRunWork(appState, this).prepare()
         createNotificationChannels()
+        val mTM =
+            getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+        mTM.listen(listener, PhoneStateListener.LISTEN_CALL_STATE)
         update()
     }
 
@@ -61,6 +74,7 @@ class AndroidMainActivity : AppCompatActivity(), MainUI {
         appState.longBreakMillis = mmss2millis(prefs.getString(longBreakDurationId, "25:00"))
         appState.hasTick = prefs.getBoolean(hasTickingSoundId, true)
         appState.shortBreaksUntilLong = prefs.getString(shortBreaksUntilLongId, "4")!!.toInt()
+        appState.pauseOnCall = prefs.getBoolean(pauseOnCallId, true)
         when(updatedKey){
             shortBreaksUntilLongId -> appState.pomodorosSinceLongBreak = 0
         }
@@ -129,7 +143,7 @@ class AndroidMainActivity : AppCompatActivity(), MainUI {
     }
 
     fun showLog(): Boolean {
-        val logViewIntent = Intent(this, LogViewActivity::class.java)
+        val logViewIntent = Intent(this, AndroidLogViewActivity::class.java)
         logViewIntent.putExtra("logFilePath", appState.pomodoroLogger.logFilePath)
         startActivity(logViewIntent)
         return true
@@ -170,12 +184,16 @@ class AndroidMainActivity : AppCompatActivity(), MainUI {
     }
 
     override fun switchToStart(){
-        btnStop.hide()
-        btnStart.show()
+        runOnUiThread{
+            btnStop.hide()
+            btnStart.show()
+        }
     }
     override fun switchToStop(){
-        btnStop.show()
-        btnStart.hide()
+        runOnUiThread {
+            btnStop.show()
+            btnStart.hide()
+        }
     }
 
     override fun setToResume(){
@@ -257,5 +275,4 @@ class AndroidMainActivity : AppCompatActivity(), MainUI {
     val mainIntent: Intent by lazy{
         Intent(this.applicationContext, AndroidMainActivity::class.java)
     }
-
 }

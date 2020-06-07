@@ -1,16 +1,14 @@
 package com.github.rs17.annoyingpomodoro
 
-import android.os.CountDownTimer
 import java.util.*
 
 // timer run includes both the start and the stop of the timer
-// this should handle everything to do with running the timer - sound, run state, etc.
-// The problem is that UI is fundamentally stateful, so how do we do this functionally?
+// this should handle everything to do with running the timer that is *not* UI
 abstract class TimerRun(mainUI_i: MainUI, appState_i: UniversalState, runPlayerResource_i : Int, stopPlayerResource_i : Int ) {
     abstract val nextRun : TimerRun
     abstract val finishMessage: String
 
-    var currentTimer: CountDownTimer? = null
+    private val currentTimer: Timer = Timer()
     val appState : UniversalState = appState_i
     val pomodoroLogger : PomodoroLogger = PomodoroLogger(appState.filesDir)
     val mainUI : MainUI = mainUI_i
@@ -18,6 +16,8 @@ abstract class TimerRun(mainUI_i: MainUI, appState_i: UniversalState, runPlayerR
     var timerState : TimerState = TimerState.stopped
     val runPlayerResource = runPlayerResource_i
     val stopPlayerResource = stopPlayerResource_i
+
+    var timerTask :TimerTask? = null
 
     enum class TimerState{
         running,
@@ -28,29 +28,30 @@ abstract class TimerRun(mainUI_i: MainUI, appState_i: UniversalState, runPlayerR
     // do whatever is needed to attach the timer to the UI here
     open fun prepare(){
         if( appState.currentTimerRun != this) {
-            appState.currentTimerRun = this;
+            appState.currentTimerRun = this
         }
     }
 
     fun run(remainMillis : Long, runMessage: String, startPlayer: Boolean) : TimerRun{ // pass in millis to allow resuming
         mainUI.switchToStop()
-        currentTimer = object: CountDownTimer(remainMillis, 100) {
 
-            override fun onTick(millisUntilFinished: Long) {
-                appState.timerMillisRemaining = millisUntilFinished
-                appState.update(millisUntilFinished)
-            }
-
-            override fun onFinish() {
-                handleFinish()
+        // updates UI every 100 ms - updates time remaining and checks if done
+        val startDate = Date()
+        timerTask = object: TimerTask() {
+            override fun run() {
+                appState.update(remainMillis - (Date().time - startDate.time))
+                if (appState.timerMillisRemaining <= 0) {
+                    timerTask?.cancel()
+                    handleFinish()
+                }
             }
         }
+        currentTimer.scheduleAtFixedRate( timerTask, startDate, 100)
+        timerState = TimerState.running
 
         if(startPlayer) {
             mainUI.startRunningPlayer(runPlayerResource)
         }
-        currentTimer!!.start()
-        timerState = TimerState.running
         pomodoroLogger.addToLog(runMessage + " " + Calendar.getInstance().time)
         return this
     }
@@ -67,7 +68,7 @@ abstract class TimerRun(mainUI_i: MainUI, appState_i: UniversalState, runPlayerR
     }
 
     fun pause(){
-        currentTimer?.cancel() // may be null if timed right at 0?
+        timerTask?.cancel()
         timerState = TimerState.stopped
         mainUI.killRunningPlayer()
         mainUI.setToResume()
@@ -79,7 +80,7 @@ abstract class TimerRun(mainUI_i: MainUI, appState_i: UniversalState, runPlayerR
 
     fun kill(){
         mainUI.killRunningPlayer()
-        currentTimer?.cancel()
+        currentTimer.cancel()
         if( appState.currentTimerRun == this){
             appState.currentTimerRun = null
         }
@@ -95,7 +96,7 @@ abstract class TimerRun(mainUI_i: MainUI, appState_i: UniversalState, runPlayerR
     }
 
     fun reset(){
-        currentTimer?.cancel()
+        timerTask?.cancel()
         mainUI.killRunningPlayer()
         prepare()
     }

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.github.rs17.annoyingpomodoro">
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <application
         android:allowBackup="true"
         android:icon="@drawable/annoying"
@@ -10,7 +11,7 @@
         android:theme="@style/AppTheme"
         android:launchMode="singleTask">
         <activity
-            android:name=".LogViewActivity"
+            android:name=".AndroidLogViewActivity"
             android:label="@string/title_activity_log_view"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity

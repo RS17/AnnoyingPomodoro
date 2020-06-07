@@ -7,7 +7,7 @@ import kotlinx.android.synthetic.main.content_log_view.*
 import java.io.File
 
 
-class LogViewActivity : AppCompatActivity() {
+class AndroidLogViewActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

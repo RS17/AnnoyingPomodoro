@@ -17,6 +17,8 @@ class UniversalState(mainUI_i: MainUI) {
     var longBreakMillis = 1500000L
     var hasTick = true
     var shortBreaksUntilLong = 4
+    var pauseOnCall = true
+
     val mainUI = mainUI_i
     val filesDir = mainUI.getFilesDirectory()
     val pomodoroLogger : PomodoroLogger = PomodoroLogger(filesDir)
@@ -30,7 +32,7 @@ class UniversalState(mainUI_i: MainUI) {
             field = value
         }
 
-    fun update(millisUntilFinished: Long): Unit {
+    fun update(millisUntilFinished: Long) {
         mainUI.displayTime(millisUntilFinished)
         timerMillisRemaining = millisUntilFinished
     }

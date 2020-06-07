@@ -30,6 +30,7 @@ class SettingsActivity: AppCompatActivity(){
             val longBreakDurationId = "long_break_duration_0"
             val hasTickingSoundId = "has_ticking_sound_0"
             val shortBreaksUntilLongId = "short_breaks_until_long_0"
+            val pauseOnCallId = "pause_on_call_0"
         }
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             setPreferencesFromResource(R.xml.preferences, rootKey)

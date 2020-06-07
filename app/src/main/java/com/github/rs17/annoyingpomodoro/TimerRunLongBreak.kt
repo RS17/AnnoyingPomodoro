@@ -1,8 +1,6 @@
 package com.github.rs17.annoyingpomodoro
 
-import android.content.Context
 import com.github.rs17.annoyingpomodoro.SettingsActivity.SettingsFragment.Companion.longBreakDurationId
-import kotlinx.android.synthetic.main.activity_main.*
 
 class TimerRunLongBreak(appState: UniversalState, activity: MainUI) : TimerRun(activity, appState, -1, R.raw.done) {
     override val nextRun: TimerRun by lazy{ TimerRunWork(appState, activity)}
