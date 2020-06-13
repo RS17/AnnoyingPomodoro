@@ -20,26 +20,32 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.preference.PreferenceManager
-import com.github.rs17.annoyingpomodoro.SettingsActivity.SettingsFragment.Companion.hasTickingSoundId
-import com.github.rs17.annoyingpomodoro.SettingsActivity.SettingsFragment.Companion.longBreakDurationId
-import com.github.rs17.annoyingpomodoro.SettingsActivity.SettingsFragment.Companion.pauseOnCallId
-import com.github.rs17.annoyingpomodoro.SettingsActivity.SettingsFragment.Companion.pomodoroDurationId
-import com.github.rs17.annoyingpomodoro.SettingsActivity.SettingsFragment.Companion.shortBreakDurationId
-import com.github.rs17.annoyingpomodoro.SettingsActivity.SettingsFragment.Companion.shortBreaksUntilLongId
+import com.github.rs17.annoyingpomodoro_lib.*
+import com.github.rs17.annoyingpomodoro_lib.SettingsActivity.SettingsFragment.Companion.hasTickingSoundId
+import com.github.rs17.annoyingpomodoro_lib.SettingsActivity.SettingsFragment.Companion.longBreakDurationId
+import com.github.rs17.annoyingpomodoro_lib.SettingsActivity.SettingsFragment.Companion.pauseOnCallId
+import com.github.rs17.annoyingpomodoro_lib.SettingsActivity.SettingsFragment.Companion.pomodoroDurationId
+import com.github.rs17.annoyingpomodoro_lib.SettingsActivity.SettingsFragment.Companion.shortBreakDurationId
+import com.github.rs17.annoyingpomodoro_lib.SettingsActivity.SettingsFragment.Companion.shortBreaksUntilLongId
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 import java.io.File
 import java.util.concurrent.TimeUnit
 
 
-class AndroidMainActivity : AppCompatActivity(), MainUI {
+class AndroidMainActivity : AppCompatActivity(),
+    MainUI {
 
     val NOTIFICATION_REMAINING_CHANNEL_ID = "AP NOTIFICATION REMAINING ID1"  //must change ID to update notifcation parameters due to caching!
     val NOTIFICATION_DONE_CHANNEL_ID = "AP NOTIFICATION DONE ID"
     val NOTIFICATION_REMAINING_NOTIF_ID = 0
     val NOTIFICATION_DONE_NOTIF_ID = 1
 
-    val appState by lazy{UniversalState(this)}
+    val appState by lazy{
+        UniversalState(
+            this
+        )
+    }
 
     var runningPlayer : AndroidMediaPlayer? = null
 

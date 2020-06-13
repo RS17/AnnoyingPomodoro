@@ -1,4 +1,4 @@
-package com.github.rs17.annoyingpomodoro
+package com.github.rs17.annoyingpomodoro_lib
 
 import java.util.*
 
@@ -21,7 +21,8 @@ class UniversalState(mainUI_i: MainUI) {
 
     val mainUI = mainUI_i
     val filesDir = mainUI.getFilesDirectory()
-    val pomodoroLogger : PomodoroLogger = PomodoroLogger(filesDir)
+    val pomodoroLogger : PomodoroLogger =
+        PomodoroLogger(filesDir)
 
     // timer currently displaying time
     var currentTimerRun : TimerRun? = null

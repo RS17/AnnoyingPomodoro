@@ -1,11 +1,21 @@
-package com.github.rs17.annoyingpomodoro
+package com.github.rs17.annoyingpomodoro_lib
 
-import com.github.rs17.annoyingpomodoro.SettingsActivity.SettingsFragment.Companion.pomodoroDurationId
+import com.github.rs17.annoyingpomodoro.R
+import com.github.rs17.annoyingpomodoro_lib.SettingsActivity.SettingsFragment.Companion.pomodoroDurationId
 
-class TimerRunWork(appState: UniversalState, activity: MainUI) : TimerRun(activity, appState, R.raw.ticktock2, R.raw.done) {
+class TimerRunWork(appState: UniversalState, activity: MainUI) : TimerRun(activity, appState,
+    R.raw.ticktock2,
+    R.raw.done
+) {
     override val nextRun: TimerRun by lazy{
         // do long break if at limit
-        if(appState.pomodorosSinceLongBreak < appState.shortBreaksUntilLong) TimerRunShortBreak(appState, activity) else TimerRunLongBreak(appState, activity)
+        if(appState.pomodorosSinceLongBreak < appState.shortBreaksUntilLong) TimerRunShortBreak(
+            appState,
+            activity
+        ) else TimerRunLongBreak(
+            appState,
+            activity
+        )
     }
     override val finishMessage: String = "*** Pomodoro finished ***"
 

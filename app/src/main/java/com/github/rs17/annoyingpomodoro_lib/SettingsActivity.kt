@@ -1,4 +1,4 @@
-package com.github.rs17.annoyingpomodoro
+package com.github.rs17.annoyingpomodoro_lib
 
 import android.os.Bundle
 import android.text.InputType
@@ -6,6 +6,7 @@ import android.text.InputType
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.EditTextPreference
 import androidx.preference.PreferenceFragmentCompat
+import com.github.rs17.annoyingpomodoro.R
 
 
 class SettingsActivity: AppCompatActivity(){
@@ -16,7 +17,10 @@ class SettingsActivity: AppCompatActivity(){
         setContentView(R.layout.activity_settings_view)
         supportFragmentManager
             .beginTransaction()
-            .replace(R.id.preferences, SettingsFragment())
+            .replace(
+                R.id.preferences,
+                SettingsFragment()
+            )
             .commit()
     }
 

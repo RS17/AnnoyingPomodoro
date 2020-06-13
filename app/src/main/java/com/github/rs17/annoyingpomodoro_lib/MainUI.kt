@@ -1,4 +1,4 @@
-package com.github.rs17.annoyingpomodoro
+package com.github.rs17.annoyingpomodoro_lib
 
 import java.io.File
 

@@ -1,4 +1,4 @@
-package com.github.rs17.annoyingpomodoro
+package com.github.rs17.annoyingpomodoro_lib
 
 enum class StringConst(val message: String) {
     // Universal strings should be here. Anything specific to a UI should be in the UI class.

@@ -1,4 +1,4 @@
-package com.github.rs17.annoyingpomodoro
+package com.github.rs17.annoyingpomodoro_lib
 
 import java.util.*
 
@@ -10,10 +10,12 @@ abstract class TimerRun(mainUI_i: MainUI, appState_i: UniversalState, runPlayerR
 
     private val currentTimer: Timer = Timer()
     val appState : UniversalState = appState_i
-    val pomodoroLogger : PomodoroLogger = PomodoroLogger(appState.filesDir)
+    val pomodoroLogger : PomodoroLogger =
+        PomodoroLogger(appState.filesDir)
     val mainUI : MainUI = mainUI_i
     //The timer needs a state because the user should only hear ticking if in playing state.  All state is tied to UI.
-    var timerState : TimerState = TimerState.stopped
+    var timerState : TimerState =
+        TimerState.stopped
     val runPlayerResource = runPlayerResource_i
     val stopPlayerResource = stopPlayerResource_i
 
@@ -32,7 +34,7 @@ abstract class TimerRun(mainUI_i: MainUI, appState_i: UniversalState, runPlayerR
         }
     }
 
-    fun run(remainMillis : Long, runMessage: String, startPlayer: Boolean) : TimerRun{ // pass in millis to allow resuming
+    fun run(remainMillis : Long, runMessage: String, startPlayer: Boolean) : TimerRun { // pass in millis to allow resuming
         mainUI.switchToStop()
 
         // updates UI every 100 ms - updates time remaining and checks if done
@@ -47,7 +49,8 @@ abstract class TimerRun(mainUI_i: MainUI, appState_i: UniversalState, runPlayerR
             }
         }
         currentTimer.scheduleAtFixedRate( timerTask, startDate, 100)
-        timerState = TimerState.running
+        timerState =
+            TimerState.running
 
         if(startPlayer) {
             mainUI.startRunningPlayer(runPlayerResource)
@@ -57,7 +60,8 @@ abstract class TimerRun(mainUI_i: MainUI, appState_i: UniversalState, runPlayerR
     }
 
     open fun handleFinish(){
-        timerState = TimerState.stopped
+        timerState =
+            TimerState.stopped
         mainUI.killRunningPlayer()
         mainUI.startRunningPlayer(stopPlayerResource)
         appState.endedTimerRun = this
@@ -68,14 +72,21 @@ abstract class TimerRun(mainUI_i: MainUI, appState_i: UniversalState, runPlayerR
     }
 
     fun pause(){
-        timerTask?.cancel()
-        timerState = TimerState.stopped
-        mainUI.killRunningPlayer()
-        mainUI.setToResume()
-        mainUI.setOnStart {
-            appState.currentTimerRun!!.run(appState.timerMillisRemaining, StringConst.POM_RESUMED.message, appState.hasTick)
+        if(timerState == TimerState.running) {
+            timerTask?.cancel()
+            timerState =
+                TimerState.stopped
+            mainUI.killRunningPlayer()
+            mainUI.setToResume()
+            mainUI.setOnStart {
+                appState.currentTimerRun!!.run(
+                    appState.timerMillisRemaining,
+                    StringConst.POM_RESUMED.message,
+                    appState.hasTick
+                )
+            }
+            pomodoroLogger.addToLog(StringConst.PAUSED.message + Calendar.getInstance().time)
         }
-        pomodoroLogger.addToLog(StringConst.PAUSED.message + Calendar.getInstance().time)
     }
 
     fun kill(){

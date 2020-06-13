@@ -15,7 +15,7 @@
             android:label="@string/title_activity_log_view"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
-            android:name=".SettingsActivity"
+            android:name="com.github.rs17.annoyingpomodoro_lib.SettingsActivity"
             android:label="Settings"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
