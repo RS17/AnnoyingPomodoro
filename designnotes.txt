@@ -1,8 +1,10 @@
 Goals of this project:
 - Create a functioning pomodoro timer that's useful to me personally
 - And potentially useful to others
-- that works both in Android and JRE (only Android as of Version 1.0)
+- that works both in Android and JRE (currently works on Android and JRE CLI, may create Swing UI version at some point
+    although I like the way the CLI turned out)
 - Make this as purely functional as possible (even if a bit impractical) as an exercise in improving FP skills
+- Stable for rest of my life (avoid dependence on third-party libraries where possible)
 
 Functional goals:
 - Slacking off should only be possible at the cost of being annoyed.
@@ -11,14 +13,14 @@ Functional goals:
 
 Origins:  
 
-I created the original "Annoying Pomodoro" (which is "Ugly Pomodoro" in this 
-repository, but still exists under the "Annoying Pomodoro" name on SourceForge)
-using Perl, when I was a lawyer and not yet a professional programmer.
+I created the original "Annoying Pomodoro" (which still exists under the 
+"Annoying Pomodoro" name on SourceForge) using Perl, when I was a lawyer 
+and not yet a professional programmer.
 
-After several years I moved to a linux PC and was going to re-build the 
-original Windows application.  However, I found that the original had a 
-functional bug that caused the timing to be inaccurate, and also a key 
-library was no longer available. In addition to substandard code.
+After several years I moved to a Linux PC and was going to re-build the
+original Windows application.  However, with years of programming experience
+I could now see that the original application had serious problems, and one
+of the libraries was also no longer available.  
 
 Rather than try to fix these major issues, I decided to rebuild the app
 in Kotlin in such a way that it could be deployed both on my phone and 
@@ -32,7 +34,7 @@ complete rewrite.
 Functional programming:
 
 Overall my goal is to use functional programming wherever practical. I 
-see FP as a good thing, but not a cure-all. For example, while higher-
+see FP as a good thing, but not mandatory. For example, while higher-
 order functions are ideal, they have some undesirable effects like not 
 easily being able to trace the program's flow from the code alone, and
 making the call stack more confusing.  And while avoiding mutation is a
@@ -42,30 +44,34 @@ but minimally.
 
 Multiple UIs:
 
-One goal (not yet realized as of 1.0) is to develop for multiple UIs in 
+One goal (not yet realized as of 1.1) is to develop for multiple UIs in 
 the same codebase.  For now, this just means that any Android stuff is
 kept in its own separate class.  Any future interface should extend MainUI
 and implement any methods therein.
 
 In practice, I've found that more depends on the UI than I hoped, 
-including the settings and sound.  So adding a java desktop interface 
-may not prove to be that easy.  
+including the settings and sound.  So adding a JRE UI wasn't as easy as expected.
 
-Speaking of which, I've not done cross-platform java desktop app before,
-so simply learning how to do that will prove to be its own adventure.  If 
-anyone reading this has pointers let me know.
+To accomplish this goal I've created a monorepo as described below.
 
-Technical Structure:
+Repository structure:
 
-As mentioned the main structural focus is separating out the UI.  Additionally:
+This is a monorepo containing the java UI, the Android UI, and the lib.
+Even though you will only need one UI and the lib to run it.  Ordinarily
+a monorepo is considered an anti-pattern but in this case I think that in 
+a sense it is "one project" in that the whole thing is designed to 
+accomplish compatibility across multiple UIs.  It's also trivial to split
+off the library if needed in the future due to the separate folder structure.
+
+Classes (to be expanded): 
 - Universal state - This handles all state that isn't UI-focused.  Not 
 	very functional but it works for keeping things simple.
 - TimerRun - this refers to a time period in which the Pomodoro timer is running.
 	A break is a timer run, a work period is a timer run.  Subclassed as needed.
 	
 And that's about it. If anyone wants to add to this please feel free to 
-make a PR and I may or may not accept it.  And contact me if any help is
-needed.  
+make a PR and I may or may not accept it.  Fork at will but note the license
+terms.  And contact me if any help is needed.
 
 Ravi Suri
 rsuriprog@gmail.com

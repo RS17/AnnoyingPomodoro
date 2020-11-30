@@ -11,9 +11,9 @@ furnished to do so, subject to the following conditions:
 
 Exception to usual MIT License:
 
-The phrase "Annoying Pomodoro" when used in reference to this software is 
-limited to the official version maintained by Ravi Suri.  Any copies or 
-derivatives of this software must not use this title or any synonym of 
+To avoid package manager confusion, the phrase "Annoying Pomodoro" when used in
+reference to this software is limited to the official version maintained by Ravi Suri.
+Any copies or derivatives of this software must not use this title or any synonym of
 the word "annoying" in the title on any release or in any package manager 
 without approval of Ravi Suri.  
 
