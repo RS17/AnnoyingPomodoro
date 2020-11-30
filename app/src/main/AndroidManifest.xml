@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.github.rs17.annoyingpomodoro">
+    package="com.github.rs17.annoyingpomodoro_android">
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <application
         android:allowBackup="true"
@@ -11,16 +11,16 @@
         android:theme="@style/AppTheme"
         android:launchMode="singleTask">
         <activity
-            android:name=".AndroidLogViewActivity"
+            android:name="com.github.rs17.annoyingpomodoro_android.AndroidLogViewActivity"
             android:label="@string/title_activity_log_view"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
-            android:name="com.github.rs17.annoyingpomodoro_lib.SettingsActivity"
+            android:name="com.github.rs17.annoyingpomodoro_android.AndroidSettingsActivity"
             android:label="Settings"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
-            android:name=".AndroidMainActivity"
+            android:name="com.github.rs17.annoyingpomodoro_android.AndroidMainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar"
             android:configChanges="keyboardHidden|orientation|screenSize"

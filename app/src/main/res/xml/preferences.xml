@@ -39,4 +39,9 @@
         android:title="Short breaks until long"
         android:inputType="number"
         android:defaultValue="4"/>
+    <CheckBoxPreference
+        app:key="has_dancer_0"
+        app:title="Show dancer?"
+        app:summary="Show pomodoro dancer"
+        android:defaultValue="true"/>
 </androidx.preference.PreferenceScreen>

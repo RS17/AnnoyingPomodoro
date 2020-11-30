@@ -1,0 +1,12 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="annoyingpomodoro_desktop:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/annoyingpomodoro_desktop_jar</output-path>
+    <root id="archive" name="annoyingpomodoro_desktop.jar">
+      <element id="module-output" name="annoyingpomodoro_desktop" />
+      <element id="library" level="project" name="app" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/kotlin-stdlib.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/kotlin-reflect.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/kotlin-test.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
