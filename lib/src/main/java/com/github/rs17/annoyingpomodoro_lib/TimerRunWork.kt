@@ -42,6 +42,6 @@ class TimerRunWork(appState: UniversalState, activity: MainUI) : TimerRun(activi
     }
 
     override fun dancerMessage(): String {
-        return return if(appState.timerMillisRemaining < appState.workMillis) Dancer.dance(appState) else Dancer.wait(appState)
+        return if(appState.timerMillisRemaining < appState.workMillis) Dancer.dance(appState) else Dancer.wait(appState)
     }
 }

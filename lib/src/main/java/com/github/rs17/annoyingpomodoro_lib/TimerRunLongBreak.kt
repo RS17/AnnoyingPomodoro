@@ -32,7 +32,7 @@ class TimerRunLongBreak(appState: UniversalState, mainUI_i: MainUI) : TimerRun(m
     }
 
     override fun dancerMessage(): String {
-        return return if(appState.timerMillisRemaining < appState.longBreakMillis) Dancer.sleep(appState) else Dancer.wait(appState)
+        return if(appState.timerMillisRemaining < appState.longBreakMillis) Dancer.sleep(appState) else Dancer.wait(appState)
     }
 
 }

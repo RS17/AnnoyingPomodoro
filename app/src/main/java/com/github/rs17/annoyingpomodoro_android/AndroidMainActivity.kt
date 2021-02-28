@@ -1,10 +1,7 @@
 package com.github.rs17.annoyingpomodoro_android
 
-import android.app.AlertDialog
+import android.app.*
 import android.app.Notification.VISIBILITY_PUBLIC
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -30,7 +27,6 @@ import com.github.rs17.annoyingpomodoro_lib.UIHelper
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 import java.io.File
-import java.lang.RuntimeException
 
 
 class AndroidMainActivity : AppCompatActivity(),
@@ -67,6 +63,10 @@ class AndroidMainActivity : AppCompatActivity(),
     override val shortBreakDurationId: String = AndroidSettingsActivity.SettingsFragment.shortBreakDurationId
     override val pomodoroDurationId: String = AndroidSettingsActivity.SettingsFragment.pomodoroDurationId
 
+    // For some reason I need to extend the class here to make the service actually run...probably something I'm doing
+    // wrong in the manifest but can't figure out because it's android and there's no helpful errors or logs whatsoever
+    class AndroidDoNotKillMeServiceLocal : AndroidDoNotKillMeService()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         //if this appears to be running on resume, you're probably not actually resuming - more likely the program exited and timerrun didn't stop
         super.onCreate(savedInstanceState)
@@ -81,6 +81,7 @@ class AndroidMainActivity : AppCompatActivity(),
             getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
         mTM.listen(listener, PhoneStateListener.LISTEN_CALL_STATE)
         update()
+        startService(Intent(this, AndroidDoNotKillMeServiceLocal::class.java))
     }
 
     // must be declared out here so it doesn't get garbage collected
@@ -235,6 +236,7 @@ class AndroidMainActivity : AppCompatActivity(),
         notificationManager.cancel(NOTIFICATION_DONE_NOTIF_ID)
         notificationManager.cancel(NOTIFICATION_REMAINING_NOTIF_ID)
         notificationManager.cancelAll()
+        stopService(Intent(this, AndroidDoNotKillMeServiceLocal::class.java))
         appState.onDestroy()
         super.onDestroy()
     }
@@ -248,6 +250,7 @@ class AndroidMainActivity : AppCompatActivity(),
     }
 
     override fun setOnStart(f:()->Unit){
+        // f() in this case is the function to start the next pomodoro, passed in from the TimerRun
         btnStart.setOnClickListener{
             f()
             NotificationManagerCompat.from(this).cancel(NOTIFICATION_DONE_NOTIF_ID)

@@ -2,7 +2,7 @@ package com.github.rs17.annoyingpomodoro_lib
 
 import java.util.*
 
-class UniversalState(mainUI_i: MainUI) {
+class UniversalState(mainUI_i: MainUI){
     // This holds any state that should be consistent across multiple UIs
     // Goal is to avoid having anything here if possible, without going nuts trying to avoid having state
 
