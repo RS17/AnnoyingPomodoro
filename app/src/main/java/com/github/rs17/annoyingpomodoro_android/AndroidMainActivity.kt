@@ -11,6 +11,7 @@ import android.os.Build
 import android.os.Bundle
 import android.telephony.PhoneStateListener
 import android.telephony.TelephonyManager
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
@@ -178,12 +179,19 @@ class AndroidMainActivity : AppCompatActivity(),
     }
 
 
-
+    private fun isMyServiceRunning(serviceClass: Class<*>): Boolean {
+        val manager = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+        return manager.getRunningServices(10).any{ x -> x.service.className ==serviceClass.name }
+    }
     override fun displayTime(time: Long){
         // this runs a lot, keep it simple as possible
         val timeRemain: String = UIHelper.timeFormatRemain(time)
+        if(!isMyServiceRunning(AndroidDoNotKillMeServiceLocal::class.java)){
+            Log.d("MAIN", "Service not running, restarting...")
+            startForegroundService(Intent(this, AndroidDoNotKillMeServiceLocal::class.java))
+        }
         runOnUiThread {
-            TimeRemaining.setText(timeRemain);
+            TimeRemaining.setText(timeRemain)
             lblDancer.setText(appState.currentTimerRun?.dancerMessage())
             notificationRemain.setContentText(timeRemain)
             with(NotificationManagerCompat.from(this)) {

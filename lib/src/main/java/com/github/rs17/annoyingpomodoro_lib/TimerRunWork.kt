@@ -3,7 +3,7 @@ class TimerRunWork(appState: UniversalState, activity: MainUI) : TimerRun(activi
     activity.tickTockResource,
     activity.doneResource
 ) {
-    val durationId = mainUI.pomodoroDurationId;
+    val durationId = mainUI.pomodoroDurationId
     override val nextRun: TimerRun by lazy{
         // do long break if at limit
         if(appState.pomodorosSinceLongBreak < appState.shortBreaksUntilLong) TimerRunShortBreak(
