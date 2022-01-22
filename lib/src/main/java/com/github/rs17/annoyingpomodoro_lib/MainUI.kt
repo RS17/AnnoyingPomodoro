@@ -16,7 +16,7 @@ interface MainUI {
     fun handleFinish(finishMessage: String)
     fun setOnStart(f:()->Unit)
     fun setToResume()
-    fun startRunningPlayer(runPlayerResource: Any)
+    fun startRunningPlayer(playerResource: Any)
     fun killRunningPlayer()
     fun switchToStop()
     fun switchToStart()
