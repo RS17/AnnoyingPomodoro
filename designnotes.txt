@@ -44,7 +44,7 @@ but minimally.
 
 Multiple UIs:
 
-One goal (not yet realized as of 1.1) is to develop for multiple UIs in 
+One goal (only realized for CLI/Android as of 2.0) is to develop for multiple UIs in
 the same codebase.  For now, this just means that any Android stuff is
 kept in its own separate class.  Any future interface should extend MainUI
 and implement any methods therein.
