@@ -17,6 +17,10 @@ class TimerRunWork(appState: UniversalState, activity: MainUI) : TimerRun(activi
     override val finishMessage: String = "*** Pomodoro finished ***"
 
     override fun handleFinish(){
+        //TODO: There is very rare bug here somewhere in which pomodoros end in rapid succession with no start logged until
+        // start break.  Only observed on android once.  Pomodoros since long break increments but long break never is
+        // triggered or any other change in state.  Likely timer task in the calling super.run method is not getting cancelled
+        // and continues to trigger this.
         appState.pomodorosSinceLongBreak++
         super.handleFinish()
         appState.addPomodoro()
@@ -43,5 +47,12 @@ class TimerRunWork(appState: UniversalState, activity: MainUI) : TimerRun(activi
 
     override fun dancerMessage(): String {
         return if(appState.timerMillisRemaining < appState.workMillis) Dancer.dance(appState) else Dancer.wait(appState)
+    }
+    override fun getColorCode(): String {
+        if(timerState.equals(TimerState.running)){
+            return "green"
+        } else {
+            return "red"
+        }
     }
 }

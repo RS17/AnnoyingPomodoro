@@ -6,7 +6,6 @@ apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 30
-    buildToolsVersion "29.0.2"
     defaultConfig {
         applicationId "com.github.rs17.annoyingpomodoro"
         minSdkVersion 14
@@ -21,6 +20,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    namespace 'com.github.rs17.annoyingpomodoro_android'
+    buildFeatures {
+        viewBinding = true
+    }
+
 }
 
 dependencies {
@@ -35,5 +39,6 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
     androidTestImplementation 'androidx.test:rules:1.2.0-beta01'
-    implementation files('/home/ravi/AndroidStudioProjects/AnnoyingPomodoro/lib/build/libs/lib.jar')
+    // assumes using monorepo with annoyingpomodoro.lib
+    implementation files('../lib/build/libs/lib.jar')
 }

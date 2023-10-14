@@ -33,4 +33,12 @@ class TimerRunShortBreak(appState: UniversalState, mainUI_i: MainUI) :
     override fun dancerMessage(): String {
         return if(appState.timerMillisRemaining < appState.shortBreakMillis) Dancer.sleep(appState) else Dancer.wait(appState)
     }
+
+    override fun getColorCode(): String {
+        if(timerState.equals(TimerState.running)){
+            return "gray"
+        } else {
+            return "yellow"
+        }
+    }
 }
