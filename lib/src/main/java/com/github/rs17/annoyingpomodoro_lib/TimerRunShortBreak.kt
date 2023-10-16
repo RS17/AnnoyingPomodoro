@@ -36,7 +36,7 @@ class TimerRunShortBreak(appState: UniversalState, mainUI_i: MainUI) :
 
     override fun getColorCode(): String {
         if(timerState.equals(TimerState.running)){
-            return "gray"
+            return "white"
         } else {
             return "yellow"
         }

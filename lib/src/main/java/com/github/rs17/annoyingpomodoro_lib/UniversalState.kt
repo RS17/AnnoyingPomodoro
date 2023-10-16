@@ -108,9 +108,11 @@ class UniversalState(mainUI_i: MainUI){
                 inputStream.close()
             }
             val storedState: StoredUniversalState = inResult as StoredUniversalState
+            pomodoroLogger.addToLog("Retrieved data from: " + storedState.lastDate)
             lastDate = storedState.lastDate
             pomodorosToday = storedState.pomodorosToday
         } else {
+            pomodoroLogger.addToLog("Warning, failed to get data from: " + storagePath)
             lastDate = LocalDate.now()
             pomodorosToday = 0;
         }

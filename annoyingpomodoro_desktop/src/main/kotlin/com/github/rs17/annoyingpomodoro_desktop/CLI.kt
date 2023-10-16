@@ -31,6 +31,7 @@ class CLI: MainUI {
     init{
         val properties: Properties = DesktopEnvironment.getProperties()
         try {
+            appState.onCreate()
             appState.workMillis = properties.getProperty("workSeconds").toLong()*1000
             appState.shortBreakMillis = properties.getProperty("shortBreakSeconds").toLong()*1000
             appState.longBreakMillis = properties.getProperty("longBreakSeconds").toLong()*1000
@@ -73,21 +74,21 @@ class CLI: MainUI {
 
         cli.printColorMulti(logo, '#', '/', '.')
         println()
-        cli.printColorLine("Welcome to Annoying Pomodoro!", cli.ANSI_GREEN)
+        cli.printColorLine("Welcome to Annoying Pomodoro!", cli.colorMap["green"]!!)
         println()
     }
 
     // Main UI stuff
     override fun displayTime(time: Long){
         val dstr: String = appState.currentTimerRun!!.dancerMessage()
-        cli.printOverwriteable(UIHelper.timeFormatRemain(time) + "      " + enterMessage + "   " + dstr)
+        cli.printOverwriteableColor(UIHelper.timeFormatRemain(time) + "      " + enterMessage + "   " + dstr, cli.colorMap[appState.currentTimerRun?.getColorCode() ?: "white"]!!)
     }
     override fun getFilesDirectory(): File {return File(".")}
     override fun handleFinish(finishMessage: String){
         synchronized(pauseThreads) {
             pauseThreads.forEach { t -> t.interrupt() }
         }
-        cli.printColorLine(UIHelper.timeFormatTOD(LocalTime.now()) + "   " + finishMessage, cli.ANSI_GREEN)
+        cli.printColorLine(UIHelper.timeFormatTOD(LocalTime.now()) + "   " + finishMessage, cli.colorMap["green"]!!)
         println("                                                   ")
         displayTime(appState.timerMillisRemaining)
     }
@@ -159,6 +160,7 @@ class CLI: MainUI {
     override fun update(){
         cli.clearLine()
         println("   " + StringConst.POMS_THIS_SESSION.message + appState.pomodorosThisSession);
+        println("   " + StringConst.POMS_TODAY.message + appState.pomodorosToday)
         println("   " + StringConst.POMS_TILL_LONG_BREAK.message + (appState.shortBreaksUntilLong - appState.pomodorosSinceLongBreak))
         displayTime(appState.timerMillisRemaining)
     }

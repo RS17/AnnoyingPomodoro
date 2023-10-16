@@ -37,7 +37,7 @@ class TimerRunLongBreak(appState: UniversalState, mainUI_i: MainUI) : TimerRun(m
 
     override fun getColorCode(): String {
         if (timerState.equals(TimerState.running)) {
-            return "gray"
+            return "white"
         } else {
             return "yellow"
         }

@@ -2,7 +2,6 @@ package com.github.rs17.annoyingpomodoro_desktop
 
 import java.io.BufferedReader
 import java.io.InputStreamReader
-import java.lang.Exception
 
 class CLIIO {
     // special class to deal with annoyances when reading from CLI
@@ -13,10 +12,14 @@ class CLIIO {
 
     private val output = mutableListOf<String>()
 
-    val ANSI_RED = "\u001B[31m"
-    val ANSI_GREEN = "\u001B[32m"
-    val ANSI_RESET = "\u001B[0m"
-    val ANSI_YELLOW = "\u001B[93m"
+    // colors should match common names in lowercase as used in android (for library compatibility)
+    val colorMap = mapOf<String, String>(
+        "red" to "\u001B[31m",
+        "green" to "\u001B[32m",
+        "yellow" to "\u001B[93m",
+        "white" to "\u001B[37m",
+        "reset" to "\u001B[0m"
+    )
 
     val cliThread = Thread({
         while(true) {
@@ -52,17 +55,23 @@ class CLIIO {
         clearLine()
         printOut(s + "\r")
     }
+
+    fun printOverwriteableColor(s: String, ansiColor: String){
+        clearLine()
+        printOut(ansiColor + s + "\r"+ colorMap["reset"])
+    }
+
     fun printOut(s: String){
         print("   " + s)
     }
-    fun printColorLine(s: String, color: String){
+    fun printColorLine(s: String, ansiColor: String){
         clearLine()
-        printOut(color + s + ANSI_RESET)
+        printOut(ansiColor + s + colorMap["reset"])
     }
     fun printColorMulti(s: String, redChar: Char, greenChar: Char, yellowChar: Char){
         // not exactly efficient but good for making it easy to write
-        val charMap = mapOf(redChar to ANSI_RED, greenChar to ANSI_GREEN, yellowChar to ANSI_YELLOW)
-        print(s.map { c: Char ->charMap.getOrDefault(c, ANSI_RESET) + c + ANSI_RESET }.joinToString(""))
+        val charMap = mapOf(redChar to colorMap["red"], greenChar to colorMap["green"], yellowChar to colorMap["yellow"])
+        print(s.map { c: Char ->charMap.getOrDefault(c, colorMap["reset"]) + c + colorMap["reset"]}.joinToString(""))
     }
 
     fun previousLine() {
