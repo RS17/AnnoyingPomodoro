@@ -35,4 +35,12 @@ class TimerRunLongBreak(appState: UniversalState, mainUI_i: MainUI) : TimerRun(m
         return if(appState.timerMillisRemaining < appState.longBreakMillis) Dancer.sleep(appState) else Dancer.wait(appState)
     }
 
+    override fun getColorCode(): String {
+        if (timerState.equals(TimerState.running)) {
+            return "white"
+        } else {
+            return "yellow"
+        }
+    }
+
 }

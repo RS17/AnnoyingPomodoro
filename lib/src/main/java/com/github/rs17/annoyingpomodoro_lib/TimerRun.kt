@@ -114,4 +114,7 @@ abstract class TimerRun(mainUI_i: MainUI, appState_i: UniversalState, runPlayerR
 
     abstract fun dancerMessage(): String
 
+    // color should be parseable by Android: https://developer.android.com/reference/android/graphics/Color#parseColor(java.lang.String)
+    abstract fun getColorCode(): String
+
 }

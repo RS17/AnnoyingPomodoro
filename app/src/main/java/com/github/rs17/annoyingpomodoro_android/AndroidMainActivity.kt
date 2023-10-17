@@ -22,16 +22,16 @@ import com.github.rs17.annoyingpomodoro_android.AndroidSettingsActivity.Settings
 import com.github.rs17.annoyingpomodoro_android.AndroidSettingsActivity.SettingsFragment.Companion.hasTickingSoundId
 import com.github.rs17.annoyingpomodoro_android.AndroidSettingsActivity.SettingsFragment.Companion.pauseOnCallId
 import com.github.rs17.annoyingpomodoro_android.AndroidSettingsActivity.SettingsFragment.Companion.shortBreaksUntilLongId
+import com.github.rs17.annoyingpomodoro_android.databinding.ActivityMainBinding
 import com.github.rs17.annoyingpomodoro_lib.StringConst
 import com.github.rs17.annoyingpomodoro_lib.TimerRunWork
 import com.github.rs17.annoyingpomodoro_lib.UIHelper
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.content_main.*
 import java.io.File
 
 
 class AndroidMainActivity : AppCompatActivity(),
-    com.github.rs17.annoyingpomodoro_lib.MainUI {
+     com.github.rs17.annoyingpomodoro_lib.MainUI {
+    private lateinit var mainBinding: ActivityMainBinding
 
     val NOTIFICATION_REMAINING_CHANNEL_ID = "AP NOTIFICATION REMAINING ID1"  //must change ID to update notifcation parameters due to caching!
     val NOTIFICATION_DONE_CHANNEL_ID = "AP NOTIFICATION DONE ID"
@@ -71,8 +71,10 @@ class AndroidMainActivity : AppCompatActivity(),
     override fun onCreate(savedInstanceState: Bundle?) {
         //if this appears to be running on resume, you're probably not actually resuming - more likely the program exited and timerrun didn't stop
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        setSupportActionBar(toolbar)
+        mainBinding = ActivityMainBinding.inflate(layoutInflater)
+
+        setContentView(mainBinding.root)
+        setSupportActionBar(mainBinding.toolbar)
         appState.onCreate()
         createStopButton()
         setupPrefs("")
@@ -136,9 +138,10 @@ class AndroidMainActivity : AppCompatActivity(),
     }
 
     fun createStopButton(){
-        btnStop.setOnClickListener { _ ->
+        mainBinding.btnStop.setOnClickListener { _ ->
             appState.currentTimerRun!!.pause()
             displayTime(appState.timerMillisRemaining)
+            setColor()
         }
     }
 
@@ -174,8 +177,9 @@ class AndroidMainActivity : AppCompatActivity(),
     }
 
     override fun update(){
-        lblPomodoroCount.setText(StringConst.POMS_THIS_SESSION.message + appState.pomodorosThisSession)
-        lblShortBreaksUntilLong.setText(StringConst.POMS_TILL_LONG_BREAK.message + (appState.shortBreaksUntilLong - appState.pomodorosSinceLongBreak))
+        mainBinding.include.lblPomodoroCountSession.setText(StringConst.POMS_THIS_SESSION.message + appState.pomodorosThisSession)
+        mainBinding.include.lblPomodoroCountDay.setText(StringConst.POMS_TODAY.message + appState.pomodorosToday)
+        mainBinding.include.lblShortBreaksUntilLong.setText(StringConst.POMS_TILL_LONG_BREAK.message + (appState.shortBreaksUntilLong - appState.pomodorosSinceLongBreak))
     }
 
 
@@ -186,13 +190,13 @@ class AndroidMainActivity : AppCompatActivity(),
     override fun displayTime(time: Long){
         // this runs a lot, keep it simple as possible
         val timeRemain: String = UIHelper.timeFormatRemain(time)
-        if(!isMyServiceRunning(AndroidDoNotKillMeServiceLocal::class.java)){
+        if(!isMyServiceRunning(AndroidDoNotKillMeServiceLocal::class.java) && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
             Log.d("MAIN", "Service not running, restarting...")
             startForegroundService(Intent(this, AndroidDoNotKillMeServiceLocal::class.java))
         }
         runOnUiThread {
-            TimeRemaining.setText(timeRemain)
-            lblDancer.setText(appState.currentTimerRun?.dancerMessage())
+            mainBinding.include.TimeRemaining.setText(timeRemain)
+            mainBinding.include.lblDancer.setText(appState.currentTimerRun?.dancerMessage())
             notificationRemain.setContentText(timeRemain)
             with(NotificationManagerCompat.from(this)) {
                 notify(NOTIFICATION_REMAINING_NOTIF_ID, notificationRemain.build())
@@ -202,18 +206,19 @@ class AndroidMainActivity : AppCompatActivity(),
 
     override fun switchToStart(){
         runOnUiThread{
-            btnStop.hide()
-            btnStart.show()
+            mainBinding.btnStop.hide()
+            mainBinding.btnStart.show()
         }
     }
     override fun switchToStop(){
         runOnUiThread {
-            btnStop.show()
-            btnStart.hide()
+            mainBinding.btnStop.show()
+            mainBinding.btnStart.hide()
         }
     }
 
     override fun setToResume(){
+        setColor()
         // resume after pause
         switchToStart()
     }
@@ -255,13 +260,15 @@ class AndroidMainActivity : AppCompatActivity(),
             cancel(NOTIFICATION_REMAINING_NOTIF_ID)
             notify(NOTIFICATION_DONE_NOTIF_ID, notificationDone.build())
         }
+        setColor()
     }
 
     override fun setOnStart(f:()->Unit){
         // f() in this case is the function to start the next pomodoro, passed in from the TimerRun
-        btnStart.setOnClickListener{
+        mainBinding.btnStart.setOnClickListener{
             f()
             NotificationManagerCompat.from(this).cancel(NOTIFICATION_DONE_NOTIF_ID)
+            setColor()
         }
     }
 
@@ -277,6 +284,11 @@ class AndroidMainActivity : AppCompatActivity(),
         if( runningPlayer != null) killRunningPlayer()
         runningPlayer = initRunningPlayer(playerResource)
         runningPlayer?.start()
+    }
+
+    private fun setColor(){
+        mainBinding.include.TimeRemaining.setTextColor(Color.parseColor(appState.currentTimerRun?.getColorCode() ?: "white"))
+        mainBinding.include.lblDancer.setTextColor(Color.parseColor(appState.currentTimerRun?.getColorCode() ?: "white"))
     }
 
     override fun killRunningPlayer() {

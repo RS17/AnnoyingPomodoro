@@ -9,7 +9,7 @@
     tools:showIn="@layout/activity_log_view">
 
     <TextView
-        android:id="@+id/LogText"
+        android:id="@+id/logTextVew"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:scrollbarAlwaysDrawVerticalTrack="true"
