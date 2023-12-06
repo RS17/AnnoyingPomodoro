@@ -63,6 +63,10 @@ a sense it is "one project" in that the whole thing is designed to
 accomplish compatibility across multiple UIs.  It's also trivial to split
 off the library if needed in the future due to the separate folder structure.
 
+The goal is that each project should be able to compile on its own without the
+monorepo structure and simply the lib jar. In the past I've lazily mixed up
+project settings in different places, but hopefully that is minimized now.
+
 Classes (to be expanded): 
 - Universal state - This handles all state that isn't UI-focused.  Not 
 	very functional but it works for keeping things simple.

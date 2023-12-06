@@ -19,3 +19,5 @@ To Build:
 - Open one of the projects in Idea or whatever
 - Run "build" and "jar" in gradle on **lib** (do this anytime you need to refresh the lib code)
 - Run build on project
+
+See designnotes.txt if you plan on forking and/or contributing so you can understand the structure.
