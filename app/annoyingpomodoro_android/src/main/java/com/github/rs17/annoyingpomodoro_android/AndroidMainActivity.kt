@@ -89,8 +89,6 @@ class AndroidMainActivity : AppCompatActivity(),
         setupPrefs("")
         TimerRunWork(appState, this).prepare()
         createNotificationChannels()
-        val mTM =
-            getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
         val telephonyManager = getSystemService(TELEPHONY_SERVICE) as TelephonyManager
         val pushNotificationPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
             println("is granted" + granted)
@@ -98,10 +96,7 @@ class AndroidMainActivity : AppCompatActivity(),
         pushNotificationPermissionLauncher.launch(POST_NOTIFICATIONS)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             if (ContextCompat.checkSelfPermission(
-                    this,
-                    Manifest.permission.READ_PHONE_STATE
-                ) == PackageManager.PERMISSION_GRANTED
-            ) {
+                    this, READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
                 telephonyManager.registerTelephonyCallback(
                     this.mainExecutor,
                     object : TelephonyCallback(), TelephonyCallback.CallStateListener {
@@ -121,7 +116,7 @@ class AndroidMainActivity : AppCompatActivity(),
         } else {
             telephonyManager.listen(listener, PhoneStateListener.LISTEN_CALL_STATE)
         }
-        //mTM.listen(listener, PhoneStateListener.LISTEN_CALL_STATE)
+
         update()
 
         val context = this
@@ -155,7 +150,8 @@ class AndroidMainActivity : AppCompatActivity(),
         appState.longBreakMillis = mmss2millis(prefs.getString(longBreakDurationId, "25:00"))
         appState.hasTick = prefs.getBoolean(hasTickingSoundId, true)
         appState.shortBreaksUntilLong = prefs.getString(shortBreaksUntilLongId, "4")!!.toInt()
-        appState.pauseOnCall = prefs.getBoolean(pauseOnCallId, true)
+        // Set pauseOnCall to false by default because otherwise users will be scared by the phone permission request on opening.  Not ideal but can't think of a better way.
+        appState.pauseOnCall = prefs.getBoolean(pauseOnCallId, false)
         if(appState.pauseOnCall){
             val readCallStatePermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
                 println("is granted" + granted)
