@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId "com.github.rs17.annoyingpomodoro"
-        minSdk 33
+        minSdk 14
         targetSdk 33
         versionCode 7
         versionName "3.0.0"
