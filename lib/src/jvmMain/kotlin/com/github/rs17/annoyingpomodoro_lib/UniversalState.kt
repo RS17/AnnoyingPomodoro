@@ -110,7 +110,7 @@ class UniversalState(mainUI_i: MainUI){
             val storedState: StoredUniversalState = inResult as StoredUniversalState
             pomodoroLogger.addToLog("Retrieved data from: " + storedState.lastDate)
             lastDate = storedState.lastDate
-            pomodorosToday = storedState.pomodorosToday
+            pomodorosToday = if(storedState.lastDate.isBefore(LocalDate.now().atStartOfDay().toLocalDate())) 0 else storedState.pomodorosToday
         } else {
             pomodoroLogger.addToLog("Warning, failed to get data from: " + storagePath)
             lastDate = LocalDate.now()
