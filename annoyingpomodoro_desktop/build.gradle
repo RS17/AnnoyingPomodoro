@@ -4,7 +4,7 @@ version = 7.0
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation files('/home/ravi/AndroidStudioProjects/AnnoyingPomodoro/lib/build/libs/annoying-pomodoro-lib-jvm-7.0.jar')
+    implementation files('../lib/build/libs/annoying-pomodoro-lib-jvm-7.0.jar')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlin_version}"
 }
 
