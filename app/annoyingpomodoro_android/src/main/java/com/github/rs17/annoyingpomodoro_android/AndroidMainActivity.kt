@@ -349,6 +349,10 @@ class AndroidMainActivity : AppCompatActivity(),
         runningPlayer = null
     }
 
+    override fun skipBreak() {
+        appState.currentTimerRun!!.skip()
+    }
+
     val mainPendingIntent: PendingIntent
         get() = PendingIntent.getActivity(
                 this, 0, mainIntent
