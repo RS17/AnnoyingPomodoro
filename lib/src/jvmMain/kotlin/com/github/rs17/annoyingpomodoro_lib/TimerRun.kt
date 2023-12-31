@@ -8,6 +8,7 @@ abstract class TimerRun(mainUI_i: MainUI, appState_i: UniversalState, runPlayerR
     abstract val nextRun : TimerRun
     abstract val finishMessage: String
     abstract val skipMessage: String
+    abstract val hasSkip: Boolean
 
 
     private val currentTimer: Timer = Timer()

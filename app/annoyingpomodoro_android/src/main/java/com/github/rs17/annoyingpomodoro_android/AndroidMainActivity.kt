@@ -86,6 +86,7 @@ class AndroidMainActivity : AppCompatActivity(),
         setSupportActionBar(mainBinding.toolbar)
         appState.onCreate()
         createStopButton()
+        createSkipButton()
         setupPrefs("")
         TimerRunWork(appState, this).prepare()
         createNotificationChannels()
@@ -194,6 +195,11 @@ class AndroidMainActivity : AppCompatActivity(),
         }
     }
 
+    fun createSkipButton(){
+        mainBinding.btnSkip.setOnClickListener { _ ->
+            skipBreak()
+        }
+    }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -255,16 +261,21 @@ class AndroidMainActivity : AppCompatActivity(),
         }
     }
 
+    // Runs when *ready to* start
     override fun switchToStart(){
         runOnUiThread{
             mainBinding.btnStop.hide()
             mainBinding.btnStart.show()
+            if(appState.currentTimerRun!!.hasSkip) mainBinding.btnSkip.show() else mainBinding.btnSkip.hide()
         }
     }
+
+    // Runs when *ready to* stop
     override fun switchToStop(){
         runOnUiThread {
             mainBinding.btnStop.show()
             mainBinding.btnStart.hide()
+            mainBinding.btnSkip.hide()
         }
     }
 
