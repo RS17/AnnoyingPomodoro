@@ -250,12 +250,16 @@ class AndroidMainActivity : AppCompatActivity(),
             startForegroundService(Intent(this, AndroidDoNotKillMeServiceLocal::class.java))
         }
         runOnUiThread {
-            mainBinding.include.TimeRemaining.setText(timeRemain)
-            mainBinding.include.lblDancer.setText(appState.currentTimerRun?.dancerMessage())
-            notificationRemain.setContentText(timeRemain)
-            if(checkCallingOrSelfPermission(POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
-                with(NotificationManagerCompat.from(this)) {
-                    notify(NOTIFICATION_REMAINING_NOTIF_ID, notificationRemain.build())
+            // only update if new time to display to avoid performance issues
+            if(appState.currentTimerRun?.dancerMessage() != mainBinding.include.lblDancer.text.toString())
+                mainBinding.include.lblDancer.setText(appState.currentTimerRun?.dancerMessage())
+            if(timeRemain != mainBinding.include.TimeRemaining.text.toString()) {
+                mainBinding.include.TimeRemaining.setText(timeRemain)
+                notificationRemain.setContentText(timeRemain)
+                if (checkCallingOrSelfPermission(POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
+                    with(NotificationManagerCompat.from(this)) {
+                        notify(NOTIFICATION_REMAINING_NOTIF_ID, notificationRemain.build())
+                    }
                 }
             }
         }
