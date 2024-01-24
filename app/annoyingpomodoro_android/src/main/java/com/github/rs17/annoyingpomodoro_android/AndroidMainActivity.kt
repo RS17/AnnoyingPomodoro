@@ -330,9 +330,11 @@ class AndroidMainActivity : AppCompatActivity(),
     override fun setOnStart(f:()->Unit){
         // f() in this case is the function to start the next pomodoro, passed in from the TimerRun
         mainBinding.btnStart.setOnClickListener{
-            f()
-            NotificationManagerCompat.from(this).cancel(NOTIFICATION_DONE_NOTIF_ID)
-            setColor()
+            if(!mainBinding.btnStart.isOrWillBeHidden) {
+                f()
+                NotificationManagerCompat.from(this).cancel(NOTIFICATION_DONE_NOTIF_ID)
+                setColor()
+            }
         }
     }
 
