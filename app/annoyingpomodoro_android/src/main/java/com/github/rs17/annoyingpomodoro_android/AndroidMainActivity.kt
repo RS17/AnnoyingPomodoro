@@ -86,6 +86,7 @@ class AndroidMainActivity : AppCompatActivity(),
         setSupportActionBar(mainBinding.toolbar)
         appState.onCreate()
         createStopButton()
+        createSkipButton()
         setupPrefs("")
         TimerRunWork(appState, this).prepare()
         createNotificationChannels()
@@ -194,6 +195,11 @@ class AndroidMainActivity : AppCompatActivity(),
         }
     }
 
+    fun createSkipButton(){
+        mainBinding.btnSkip.setOnClickListener { _ ->
+            skipBreak()
+        }
+    }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -244,27 +250,36 @@ class AndroidMainActivity : AppCompatActivity(),
             startForegroundService(Intent(this, AndroidDoNotKillMeServiceLocal::class.java))
         }
         runOnUiThread {
-            mainBinding.include.TimeRemaining.setText(timeRemain)
-            mainBinding.include.lblDancer.setText(appState.currentTimerRun?.dancerMessage())
-            notificationRemain.setContentText(timeRemain)
-            if(checkCallingOrSelfPermission(POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
-                with(NotificationManagerCompat.from(this)) {
-                    notify(NOTIFICATION_REMAINING_NOTIF_ID, notificationRemain.build())
+            // only update if new time to display to avoid performance issues
+            if(appState.currentTimerRun?.dancerMessage() != mainBinding.include.lblDancer.text.toString())
+                mainBinding.include.lblDancer.setText(appState.currentTimerRun?.dancerMessage())
+            if(timeRemain != mainBinding.include.TimeRemaining.text.toString()) {
+                mainBinding.include.TimeRemaining.setText(timeRemain)
+                notificationRemain.setContentText(timeRemain)
+                if (checkCallingOrSelfPermission(POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
+                    with(NotificationManagerCompat.from(this)) {
+                        notify(NOTIFICATION_REMAINING_NOTIF_ID, notificationRemain.build())
+                    }
                 }
             }
         }
     }
 
+    // Runs when *ready to* start
     override fun switchToStart(){
         runOnUiThread{
             mainBinding.btnStop.hide()
             mainBinding.btnStart.show()
+            if(appState.currentTimerRun!!.hasSkip) mainBinding.btnSkip.show() else mainBinding.btnSkip.hide()
         }
     }
+
+    // Runs when *ready to* stop
     override fun switchToStop(){
         runOnUiThread {
             mainBinding.btnStop.show()
             mainBinding.btnStart.hide()
+            mainBinding.btnSkip.hide()
         }
     }
 
@@ -319,9 +334,11 @@ class AndroidMainActivity : AppCompatActivity(),
     override fun setOnStart(f:()->Unit){
         // f() in this case is the function to start the next pomodoro, passed in from the TimerRun
         mainBinding.btnStart.setOnClickListener{
-            f()
-            NotificationManagerCompat.from(this).cancel(NOTIFICATION_DONE_NOTIF_ID)
-            setColor()
+            if(!mainBinding.btnStart.isOrWillBeHidden) {
+                f()
+                NotificationManagerCompat.from(this).cancel(NOTIFICATION_DONE_NOTIF_ID)
+                setColor()
+            }
         }
     }
 
@@ -347,6 +364,10 @@ class AndroidMainActivity : AppCompatActivity(),
     override fun killRunningPlayer() {
         runningPlayer?.stop()
         runningPlayer = null
+    }
+
+    override fun skipBreak() {
+        appState.currentTimerRun!!.skip()
     }
 
     val mainPendingIntent: PendingIntent

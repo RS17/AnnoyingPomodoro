@@ -6,6 +6,7 @@
     <color name="ColorStop">#CD0000</color>
     <color name="colorBlank">#00FF0400</color>
     <color name="colorStop">#CD0000</color>
+    <color name="colorPause">#0000CD</color>
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>

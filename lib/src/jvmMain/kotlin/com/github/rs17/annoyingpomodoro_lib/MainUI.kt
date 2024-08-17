@@ -14,10 +14,11 @@ interface MainUI {
     fun displayTime(time: Long)
     fun getFilesDirectory(): File
     fun handleFinish(finishMessage: String)
+    fun killRunningPlayer()
     fun setOnStart(f:()->Unit)
     fun setToResume()
     fun startRunningPlayer(playerResource: Any)
-    fun killRunningPlayer()
+    fun skipBreak()
     fun switchToStop()
     fun switchToStart()
     fun update()

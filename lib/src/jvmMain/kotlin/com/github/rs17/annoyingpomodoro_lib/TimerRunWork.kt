@@ -15,6 +15,8 @@ class TimerRunWork(appState: UniversalState, activity: MainUI) : TimerRun(activi
         )
     }
     override val finishMessage: String = "*** Pomodoro finished ***"
+    override val skipMessage: String = "Pomodoro skipped (???)"
+    override val hasSkip = false;
 
     override fun handleFinish(){
         //TODO: There is very rare bug here somewhere in which pomodoros end in rapid succession with no start logged until

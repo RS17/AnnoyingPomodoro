@@ -7,6 +7,9 @@ import java.util.*
 abstract class TimerRun(mainUI_i: MainUI, appState_i: UniversalState, runPlayerResource_i : Any, stopPlayerResource_i : Any ) {
     abstract val nextRun : TimerRun
     abstract val finishMessage: String
+    abstract val skipMessage: String
+    abstract val hasSkip: Boolean
+
 
     private val currentTimer: Timer = Timer()
     val appState : UniversalState = appState_i
@@ -112,9 +115,22 @@ abstract class TimerRun(mainUI_i: MainUI, appState_i: UniversalState, runPlayerR
         prepare()
     }
 
+    fun skip(){
+        timerState =
+            TimerState.stopped
+        mainUI.killRunningPlayer()
+        mainUI.startRunningPlayer(stopPlayerResource)
+        appState.endedTimerRun = this
+        appState.currentTimerRun = null
+        nextRun.prepare()
+        pomodoroLogger.addToLog( skipMessage + " " + Calendar.getInstance().time)
+        mainUI.handleFinish(skipMessage)
+    }
+
     abstract fun dancerMessage(): String
 
     // color should be parseable by Android: https://developer.android.com/reference/android/graphics/Color#parseColor(java.lang.String)
     abstract fun getColorCode(): String
+
 
 }

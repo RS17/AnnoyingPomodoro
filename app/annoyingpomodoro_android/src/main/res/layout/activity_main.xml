@@ -14,9 +14,10 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_height="wrap_content"
             android:background="@color/colorPrimaryDark"
             app:popupTheme="@style/AppTheme.PopupOverlay">
+
             <TextView
                 android:id="@+id/toolbar_title"
                 android:layout_width="match_parent"
@@ -24,7 +25,8 @@
                 android:gravity="center"
                 android:text="Annoying Pomodoro"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-                app:fontFamily="sans-serif-smallcaps"/>
+                android:textSize="30sp"
+                app:fontFamily="sans-serif-smallcaps" />
         </androidx.appcompat.widget.Toolbar>
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -51,6 +53,15 @@
         android:layout_margin="@dimen/fab_margin"
         app:backgroundTint="@color/colorStop"
         app:srcCompat="@color/colorBlank" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btnSkip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|start"
+            android:layout_margin="@dimen/fab_margin"
+            app:backgroundTint="@color/colorPause"
+            app:srcCompat="@color/colorBlank" />
 
 
 

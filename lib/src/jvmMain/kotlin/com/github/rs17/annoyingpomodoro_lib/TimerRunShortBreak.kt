@@ -12,6 +12,8 @@ class TimerRunShortBreak(appState: UniversalState, mainUI_i: MainUI) :
         )
     }
     override val finishMessage: String = "Short break finished"
+    override val skipMessage: String = "Short break skipped"
+    override val hasSkip = true;
 
     override fun prepare() {
         super.prepare()
