@@ -11,8 +11,8 @@ android {
         applicationId "com.github.rs17.annoyingpomodoro"
         minSdk 14
         targetSdk 33
-        versionCode 7
-        versionName "3.0.0"
+        versionCode 9
+        versionName "9"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
