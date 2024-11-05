@@ -2,7 +2,8 @@ Annoying Pomodoro
 
 This is a Pomodoro timer, currently only for Android and CLI.  To run/work on: clone the repo and open it in Android Studio.  It should run out of the box.
 
-This app is available on the [Android Play store](https://play.google.com/store/apps/details?id=com.github.rs17.annoyingpomodoro)
+~~This app is available on the [Android Play store](https://play.google.com/store/apps/details?id=com.github.rs17.annoyingpomodoro)~~
+The app is no longer available on the Android Play Store due to Google's increasingly onerous requirments on developers that make independent/pro bono development impractical. Looking into adding to F-Droid instead.
 
 The desktop CLI version is a jar file located in this project in: /annoyingpomodoro_desktop/build/libs/.  To run it, move it or keep it in the same directory and run:
 ''''
